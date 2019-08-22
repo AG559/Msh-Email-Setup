@@ -3,7 +3,7 @@ import javax.mail.*;
 import javax.mail.internet.*;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MessagingException {
         String host = "mail.globalmsh.com";
         final String user = "ba@globalmsh.com";
         final String password = "ba12#$56A";
@@ -11,9 +11,9 @@ public class Main {
         Properties props = new Properties();
         props.put("mail.smtp.host", host);
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.socketFactory.port","465");
-        props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.port","25");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.port", "25");
         props.put("mail.debug", "true");
 
         Session session = Session.getDefaultInstance(props, new Authenticator() {
@@ -28,10 +28,12 @@ public class Main {
             message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(to));
             message.setSubject("Ping");
             message.setText("Hello This is example of email sending!");
-            Transport.send(message);
+            //Transport.send(message);
             System.out.println("Message send successfully!");
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+        ReceiveMail rm = new ReceiveMail();
+        rm.doit("imap", "mail.globalmsh.com", "143", "ba@globalmsh.com", "ba12#$56A");
     }
 }
